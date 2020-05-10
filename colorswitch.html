@@ -8,16 +8,36 @@
   </head>
   <body onload="ball.draw()">
      <canvas id="canvas" width="600" height="600"></canvas>
+     <img src="maxresdefault.jpg" alt="space background" height="600" width="600">
+	  
   </body>
    <script>
 	  var canvas=document.getElementById("canvas");
 	  var ctx=canvas.getContext('2d');
 	  var raf;
-      var running=false;
+          var running=false;
+	  var img=new Image();
+	  img.src="maxresdefault.jpg";
+	  img.onload=function(){
+	       var imgHeight=0;
+		   var scrollspeed=10;
+		   function loop()
+		   {
+		    ctx.drawImage(img,0,imgHeight);
+			ctx.drawImage(img,0,imgHeight-canvas.height);
+			imgheight+=scrollspeed;
+			if(imgHeight==canvas.height)
+			     imgHeight=0;
+			window.requestAnimationFrame(loop);
+		   }
+	  loop();
+	  }	   
+		
+			
 	  var ball={
 	  x:300,
 	  y:300,
-	  vy:10,
+	  vy:5,
 	  radius:25,
 	  color:"blue",
 	  draw:function(){
@@ -40,7 +60,7 @@
 	    clear();
 	    ball.draw();
 	    ball.y=ball.y-ball.vy;
-		if(ball.y < o-200)
+		if(ball.y < o-100)
 		   ball.vy=-ball.vy 
 		if(ball.y==o)
 		   ball.vy=-ball.vy;
@@ -52,13 +72,6 @@
 	  canvas.addEventListener('click',function(e){ 
 	  	  if (!running){
 		    clear();
-			 ball.draw();
-	         ball.y=ball.y-ball.vy;
-		     if(ball.y < o-200)
-		         ball.vy=-ball.vy 
-		     if(ball.y==o)
-		         ball.vy=-ball.vy;
-		   
 		    raf=window.requestAnimationFrame(draw);
 			running=true;
 			
