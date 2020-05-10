@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+   
+    <title>ball</title>
+   
+  </head>
+  <body onload="ball.draw()">
+     <canvas id="canvas" width="600" height="600"></canvas>
+  </body>
+   <script>
+	  var canvas=document.getElementById("canvas");
+	  var ctx=canvas.getContext('2d');
+	  var raf;
+      var running=false;
+	  var ball={
+	  x:300,
+	  y:300,
+	  vy:10,
+	  radius:25,
+	  color:"blue",
+	  draw:function(){
+	    
+	      ctx.beginPath();
+		  ctx.arc(300,this.y,this.radius,0,Math.PI*2,true);
+		  ctx.closePath();
+		  ctx.fillStyle=this.color;
+		  ctx.fill();
+	  }
+	 }; 
+	  
+	  
+	  function clear(){
+	    ctx.fillStyle='rgba(255,255,255)';
+		ctx.fillRect(0,0,canvas.width,canvas.height); 
+	  }
+	  var o=ball.y;
+	  function draw(){
+	    clear();
+	    ball.draw();
+	    ball.y=ball.y-ball.vy;
+		if(ball.y < o-200)
+		   ball.vy=-ball.vy 
+		if(ball.y==o)
+		   ball.vy=-ball.vy;
+		   
+	    raf=window.requestAnimationFrame(draw);
+	}
+	
+     
+	  canvas.addEventListener('click',function(e){ 
+	  	  if (!running){
+		    clear();
+			 ball.draw();
+	         ball.y=ball.y-ball.vy;
+		     if(ball.y < o-200)
+		         ball.vy=-ball.vy 
+		     if(ball.y==o)
+		         ball.vy=-ball.vy;
+		   
+		    raf=window.requestAnimationFrame(draw);
+			running=true;
+			
+			
+		}
+	});
+	  canvas.addEventListener('mouseout',function(e){
+	     
+       	   window.cancelAnimationFrame(raf);
+		   running=false;
+		  
+	});
+	
+	ball.draw();
+	
+	</script>
+   
+</html>
