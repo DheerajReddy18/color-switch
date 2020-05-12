@@ -1,92 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
    
-    <title>ball</title>
-   
+    
+   <title>ball</title>
+     <style>
+	   canvas{
+	         background-color:black;
+			 border:15px solid blue;
+             }
+	</style>	
   </head>
-  <body onload="ball.draw()">
+ 
+  <body onload="startgame()">
      <canvas id="canvas" width="600" height="600"></canvas>
-     <img src="maxresdefault.jpg" alt="space background" height="600" width="600">
+  
+  <script>
+   var myobstacles=[];
+   var outerradius=60;
+   var innerradius=45;
+   var startangle=0;
+   var endangle=0;
+   var colours=["blue","green","red","yellow","pink","orange"]
+   var n=colours.length;
+   var z=[];
+   var x=300;
+   var y=60;
+   var i=0;
+   var raf;
+   var canvas=document.getElementById("canvas");
+   var ctx=canvas.getContext('2d');
+  function startgame(){
+      obstacle();
+	  drawobstacle();
+	  raf=requestAnimationFrame(drawobstacle);
 	  
-  </body>
-   <script>
-	  var canvas=document.getElementById("canvas");
-	  var ctx=canvas.getContext('2d');
-	  var raf;
-          var running=false;
-	  var img=new Image();
-	  img.src="maxresdefault.jpg";
-	  img.onload=function(){
-	       var imgHeight=0;
-		   var scrollspeed=10;
-		   function loop()
-		   {
-		    ctx.drawImage(img,0,imgHeight);
-			ctx.drawImage(img,0,imgHeight-canvas.height);
-			imgheight+=scrollspeed;
-			if(imgHeight==canvas.height)
-			     imgHeight=0;
-			window.requestAnimationFrame(loop);
-		   }
-	  loop();
-	  }	   
+  }
+  function obstacle(){
+    for ( i=0;i<2;i++) 
+	   {
+	     
+		 if(i>0)
+		 {
+		  this.z[i]=Math.floor(Math.random()*6);
 		
-			
-	  var ball={
-	  x:300,
-	  y:300,
-	  vy:5,
-	  radius:25,
-	  color:"blue",
-	  draw:function(){
-	    
-	      ctx.beginPath();
-		  ctx.arc(300,this.y,this.radius,0,Math.PI*2,true);
-		  ctx.closePath();
-		  ctx.fillStyle=this.color;
-		  ctx.fill();
-	  }
-	 }; 
-	  
-	  
-	  function clear(){
-	    ctx.fillStyle='rgba(255,255,255)';
-		ctx.fillRect(0,0,canvas.width,canvas.height); 
-	  }
-	  var o=ball.y;
-	  function draw(){
-	    clear();
-	    ball.draw();
-	    ball.y=ball.y-ball.vy;
-		if(ball.y < o-100)
-		   ball.vy=-ball.vy 
-		if(ball.y==o)
-		   ball.vy=-ball.vy;
-		   
-	    raf=window.requestAnimationFrame(draw);
+		  while(z[i-1]==z[i])
+		     this.z[i]=Math.floor(Math.random()*6);
+		 }
+		 else
+		  z[i]=Math.floor(Math.random()*6);
+		  console.log(colours[z[i]]);
 	}
 	
-     
-	  canvas.addEventListener('click',function(e){ 
-	  	  if (!running){
-		    clear();
-		    raf=window.requestAnimationFrame(draw);
-			running=true;
-			
-			
-		}
-	});
-	  canvas.addEventListener('mouseout',function(e){
-	     
-       	   window.cancelAnimationFrame(raf);
-		   running=false;
-		  
-	});
-	
-	ball.draw();
-	
-	</script>
+  }
+  function drawobstacle(){
+   for(i=0;i<2;i++)
+   {
+     startangle=(Math.PI)*i;
+	 endangle=Math.PI*2/2*(i+1);
+     ctx.fillStyle=colours[z[i]];
+	 console.log(ctx.fillStyle);
+	 ctx.beginPath();
+	 ctx.arc(x,y,outerradius,startangle,endangle);  
+	 ctx.closePath();
+	 ctx.fill();
+	 ctx.beginPath();
+	 ctx.fillStyle="black";
+     ctx.arc(x,y,innerradius,startangle,endangle);
+	 ctx.closePath();
+	 ctx.fill();
+	 gamearea.updategamearea();
+	 
+	 
+	   
+  }	  
    
+   	  
+  
+  }
+
+  
+  var gamearea={
+  
+       updategamearea:function(){
+	      
+	      y-=1;
+		  ctx.clearRect(0,0,600,600); 
+		  requestAnimationFrame(drawobstacle);
+	   },
+  
+    	  stop:function(){
+	      
+	  
+	  }
+	  
+  }
+  
+</script>
+</body>   
+  
 </html>
