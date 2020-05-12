@@ -33,8 +33,8 @@
    var ctx=canvas.getContext('2d');
   function startgame(){
       obstacle();
-	  drawobstacle();
-	  raf=requestAnimationFrame(drawobstacle);
+      drawobstacle();
+	
 	  
   }
   function obstacle(){
@@ -58,6 +58,8 @@
    ctx.clearRect(0,0,600,600); 
    for(i=0;i<2;i++)
    {
+	 if(rotate<Math.PI*2)
+	 {		 
          startangle=(Math.PI)*i+rotate;
 	 endangle=Math.PI*(i+1)+rotate;
 	 ctx.fillStyle=colours[z[i]];
@@ -68,13 +70,18 @@
 	 ctx.fill();
 	 ctx.beginPath();
 	 ctx.fillStyle="black";
-     ctx.arc(x,y,innerradius,startangle,endangle);
+         ctx.arc(x,y,innerradius,startangle,endangle);
 	 ctx.closePath();
 	 ctx.fill();
 	 gamearea.updategamearea();
-	 
-	 
-	   
+         requestAnimationFrame(drawobstacle);
+	 }
+	 else
+	{
+           rotate=0;
+           drawobstacle();
+	}		
+ 	   
   }	  
    
    	  
@@ -86,11 +93,11 @@
   
        updategamearea:function(){
 	      if(i==1){
-	       y+=0.5;
-	       rotate+=0.5;
+	       y+=0.1;
+	       rotate+=0.0175;
 	      }	      
 		 
-		  requestAnimationFrame(drawobstacle);
+		 
 	   },
   
     	  stop:function(){
