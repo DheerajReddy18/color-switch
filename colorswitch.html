@@ -58,9 +58,11 @@
    ctx.clearRect(0,0,600,600); 
    for(i=0;i<2;i++)
    {
-     startangle=(Math.PI)*i+rotate;
-	 endangle=Math.PI*2/2*(i+1)+rotate;
-     ctx.fillStyle=colours[z[i]];
+         startangle=(Math.PI)*i+rotate;
+	 endangle=Math.PI*(i+1)+rotate;
+	 if(endangle>(Math.PI*2))
+	   endangle=(Math.PI)*(i+1)+rotate-(Math.PI*2);  
+         ctx.fillStyle=colours[z[i]];
 	 console.log(ctx.fillStyle);
 	 ctx.beginPath();
 	 ctx.arc(x,y,outerradius,startangle,endangle);  
@@ -85,9 +87,10 @@
   var gamearea={
   
        updategamearea:function(){
-	      
-	      y+=0.5;
+	      if(i==1){
+	       y+=0.5;
 	       rotate+=0.5;
+	      }	      
 		 
 		  requestAnimationFrame(drawobstacle);
 	   },
