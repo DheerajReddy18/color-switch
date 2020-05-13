@@ -91,12 +91,13 @@ var gamearea={
 	
 	   
 	 for( var i=0;i<myobstacles.length;i++)
+	 {		 
 	   myobstacles[i].drawobstacle();
 	   myobstacles[i].y+=1;
 	   myobstacles[i].rotate+=0.0175;
-	   
+	 } 
 	  raf=requestAnimationFrame(gamearea.updategamearea);  
-	  clearRect(0,0,600,600);
+	  ctx.clearRect(0,0,600,600);
 	 
 	},
 	 
