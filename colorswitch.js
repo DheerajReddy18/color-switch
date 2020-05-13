@@ -1,4 +1,4 @@
- var myobstacles=[];
+var myobstacles=[];
    var outerradius=60;
    var innerradius=45;
    var startangle=0;
@@ -11,7 +11,7 @@
    var y=60;
   
    var i=0;
-   var raf;
+   var raf=0
   
    var canvas=document.getElementById("canvas");
    var ctx=canvas.getContext('2d');
@@ -21,20 +21,16 @@
    
   function startgame(){
 
-     myobstacles[0]= new obstacle;
+     myobstacles.push(new obstacle);
 	 myobstacles[0].randomcolor();
-	 myobstacles[0].drawobstacle();
+	 gamearea.updategamearea();
 	  
 	  
   }
   
  
   class obstacle{
-  constructor()
-  {
-  this.y=60;
-  this.rotate=0;
-  }
+ 
   randomcolor(){
    
     for ( i=0;i<2;i++) 
@@ -53,7 +49,7 @@
 	}
   }
    drawobstacle(){
-   ctx.clearRect(0,0,600,600);
+  
    for( var j=0;j<2;j++)
    {
    if(this.rotate > (Math.PI)*2)
@@ -74,8 +70,8 @@
 	 ctx.closePath();
 	 ctx.fill();
    }
-  gamearea.updategamearea();
-  requestAnimationFrame(()=>this.drawobstacle());   
+ 
+ 
 
   	  
 }
@@ -83,29 +79,25 @@
 var gamearea={
   updategamearea:function(){
      
-     if(myobstacles[0].y==600)
+     if(myobstacles[0].y==300)
 	 {
 	  myobstacles.push(new obstacle);
-	  myobstacles.slice(1,);
-	  for (i=0;i<myobstacles.length;i++)
-	  {
-	     
-	     myobstacles[i].y+=1;
-		 myobstacles[i].rotate+=0.0175; 
-	     console.log(myobstacles);
-	     myobstacles[i+1].x=300;
-		 myobstacles[i+1].y=80;
-		 myobstacles[i+1].randomcolor();
-		
+	  myobstacles=myobstacles.slice(1,);
+	  myobstacles[myobstacles.length-1].randomcolor();
+	  
 		 
 	   }	 
-	 }
-	 else
-	 {
-	 myobstacles[0].y+=1;
-	 myobstacles[0].rotate+=0.0175;
 	 
-	 }
+	
+	   
+	 for( var i=0;i<myobstacles.length;i++)
+	   myobstacles[i].drawobstacle();
+	   myobstacles[i].y+=1;
+	   myobstacles[i].rotate+=0.0175;
+	   
+	  raf=requestAnimationFrame(gamearea.updategamearea);  
+	  clearRect(0,0,600,600);
+	 
 	},
 	 
 	
