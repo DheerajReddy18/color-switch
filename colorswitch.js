@@ -30,7 +30,11 @@ var myobstacles=[];
   
  
   class obstacle{
- 
+  constructor(){
+  this.y=60;
+  this.rotate=0;
+  }
+   
   randomcolor(){
    
     for ( i=0;i<2;i++) 
@@ -78,26 +82,33 @@ var myobstacles=[];
 }
 var gamearea={
   updategamearea:function(){
-     
-     if(myobstacles[0].y==300)
+  
+     ctx.clearRect(0,0,600,600)
+     if(myobstacles[0].y==600)
 	 {
-	  myobstacles.push(new obstacle);
+	
 	  myobstacles=myobstacles.slice(1,);
 	  myobstacles[myobstacles.length-1].randomcolor();
 	  
 		 
-	   }	 
-	 
-	
+	  }	
+	  if(myobstacles[0].y==300) 
+	  {
+	     myobstacles.push(new obstacle); 
+	     myobstacles[myobstacles.length-1].randomcolor();
+	     
+	  }
+	  
 	   
 	 for( var i=0;i<myobstacles.length;i++)
-	 {		 
+	 {
 	   myobstacles[i].drawobstacle();
 	   myobstacles[i].y+=1;
 	   myobstacles[i].rotate+=0.0175;
-	 } 
+	 }
+	  console.log(myobstacles);
 	  raf=requestAnimationFrame(gamearea.updategamearea);  
-	  ctx.clearRect(0,0,600,600);
+	  
 	 
 	},
 	 
