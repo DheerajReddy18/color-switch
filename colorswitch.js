@@ -97,7 +97,7 @@ var gamearea={
 		  myobstacles[i].rotate+=0.0175; 
 		  if(myobstacles[i].rotate==Math.PI){
 	             myobstacles.push(new obstacle());
-		     myobstacles[i].drawobstacles();
+		     myobstacles[i].drawobstacle();
 		  }		  
 	  } 
 	   
