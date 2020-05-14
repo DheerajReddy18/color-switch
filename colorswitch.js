@@ -3,15 +3,18 @@ var myobstacles=[];
    var innerradius=45;
    var startangle=0;
    var endangle=0;
-   var colours=["blue","green","red","yellow"]
+   var colours=["blue","green","red","yellow","orange","pink","brown"]
    var n=colours.length;
    var z=[];
+   var b=[];
    var x=300;
    var rotate=0;
    var y=60;
    var running=false;
    var i=0;
    var raf=0;
+   var c=0;
+   var o=0;
    
    
 
@@ -36,7 +39,7 @@ var myobstacles=[];
   
    var ball={
 	  l:300,
-	  m:530,
+	  m:590,
 	  vy:-1.5,
 	  radius:5,
 	  color:"blue",
@@ -66,13 +69,13 @@ var myobstacles=[];
 	     
 		 if(i>0)
 		 {
-		 z[i]=Math.floor(Math.random()*4);
+		 z[i]=Math.floor(Math.random()*7);
 		
 		  while(z[i-1]==z[i]||z[i-2]==z[i]||z[i-3]==z[i]||z[i-4]==z[i])
-		  z[i]=Math.floor(Math.random()*4);
+		  z[i]=Math.floor(Math.random()*7);
 		 }
 		 else
-		  z[i]=Math.floor(Math.random()*4);
+		  z[i]=Math.floor(Math.random()*7);
 		  
 	}
   }
@@ -100,28 +103,11 @@ var myobstacles=[];
   	  
 }
 }
-var o=0;
-var gamearea={
-  updategamearea:function(){
-  
-     ctx.clearRect(0,0,600,600)
-     if(myobstacles[0].y==600)
-	 {
-	
-	  myobstacles=myobstacles.slice(1,);
-	  myobstacles[myobstacles.length-1].randomcolor();
-	  
-		 
-	  }	
-	  if(myobstacles[0].y==350) 
-	  {
-	     myobstacles.push(new obstacle); 
-	   
-	     
-	  }
-	  
-			  
-	  canvas.addEventListener('click',function(e)
+
+
+function updateball()
+{
+ canvas.addEventListener('click',function(e)
 	   { 
 	  	  if (!running)
 	         {	 
@@ -141,27 +127,65 @@ var gamearea={
 		  }
 	       
 	   } );  
-	   if (running==true)
+	  
+	  if (running==true)
 	   {
           ball.m-=ball.vy;
 		  if(ball.m<o-30)
 		  {
-		   console.log("hi");
+		   
 		   ball.vy=-ball.vy;
           }
-          if(ball.m==530)
+          if(ball.m==590)
 		  {
 		   running=false;	
-		   console.log("hello");
+		   
 		  } 	
 	   }
 	   if(ball.m+ball.radius==600 || ball.m+ball.radius==0)
 	      ball.draw();
 	     
-	   	
-	   
-	    ball.color=colours[z[1]];
-	    ball.draw();
+	   	while(c!=1)
+	   {  
+	   b=Math.floor(Math.random()*7);
+	   ball.color=colours[b];
+	   for(j=0;j<4;j++)
+	   {
+	     if(ball.color==colours[z[j]])
+		 { 
+		    c=1;
+		 }
+		}
+	   }
+	 
+	  
+		ball.draw();
+}
+
+
+
+
+
+var gamearea={
+  updategamearea:function(){
+  
+     ctx.clearRect(0,0,600,600)
+     if(myobstacles[0].y==600)
+	 {
+	  myobstacles=myobstacles.slice(1,);console.log("hi");
+	  
+	
+      }	
+	  if(myobstacles[0].y==250) 
+	  {
+	     myobstacles.push(new obstacle); 
+		 myobstacles[myobstacles.length-1].randomcolor(); 
+		 c=0;
+	  }
+	  
+		updateball();
+			  
+	 
         for( var i=0;i<myobstacles.length;i++)
 	          {
 	               myobstacles[i].drawobstacle();
@@ -185,5 +209,6 @@ var gamearea={
 	  }
 	  
   }
+  
   
   
