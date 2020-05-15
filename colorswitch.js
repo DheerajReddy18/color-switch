@@ -5,7 +5,7 @@
    var endangle=0;
    var colours=["blue","green","red","yellow","orange","pink","brown"]
    var n=colours.length;
-   
+   var audiocount=0
    var b=[];
    var x=300;
    var rotate=0;
@@ -30,7 +30,7 @@
    
    
   function startgame(){
-     sound.play();
+     
      myobstacles.push(new obstacle);
 	 myobstacles[0].randomcolor();
 	 gamearea.updategamearea();
@@ -144,6 +144,12 @@ function updateball()
 	           ball.vy=-ball.vy;  
 		       o=ball.m
 		  }
+		 if(audiocount==0)
+		 {
+		    audiocount=1;
+			sound.play();
+		 } 
+		  
 	       
 	   } );  
 	  
@@ -278,6 +284,7 @@ var gamearea={
 		 if(c==1)
 		 {
 		   cancelAnimationFrame(raf);
+		   sound.pause();
 		   gamearea.storage();
 		   setTimeout(function(){
 		     
