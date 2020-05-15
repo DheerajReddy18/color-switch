@@ -22,7 +22,7 @@
    
 
   
-  
+   var sound=document.getElementById("song");
    var canvas=document.getElementById("canvas");
    var ctx=canvas.getContext('2d');
    var myobstacles=[];
@@ -30,7 +30,7 @@
    
    
   function startgame(){
-    
+     sound.play();
      myobstacles.push(new obstacle);
 	 myobstacles[0].randomcolor();
 	 gamearea.updategamearea();
@@ -47,6 +47,7 @@
 	  radius:5,
 	  color:"blue",
 	  draw:function(){
+	  
 	      ctx.beginPath();
 		  ctx.arc(300,this.m,this.radius,0,Math.PI*2,true);
 		  ctx.closePath();
@@ -311,7 +312,4 @@ var gamearea={
 	 }
 	 
 }
-  
-  
-  
   
