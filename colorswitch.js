@@ -1,11 +1,11 @@
-var myobstacles=[];
+ var myobstacles=[];
    var outerradius=60;
    var innerradius=45;
    var startangle=0;
    var endangle=0;
    var colours=["blue","green","red","yellow","orange","pink","brown"]
    var n=colours.length;
-   var z=[];
+   
    var b=[];
    var x=300;
    var rotate=0;
@@ -15,7 +15,9 @@ var myobstacles=[];
    var raf=0;
    var c=0;
    var o=0;
-   
+   var score=0;
+   var totscore=0;
+   var count=0;
    
 
   
@@ -31,7 +33,7 @@ var myobstacles=[];
      myobstacles.push(new obstacle);
 	 myobstacles[0].randomcolor();
 	 gamearea.updategamearea();
-	  console.log(colours[z[0]]);
+	
 	  
   }
   
@@ -49,6 +51,8 @@ var myobstacles=[];
 		  ctx.closePath();
 		  ctx.fillStyle=this.color;
 		  ctx.fill();
+		  
+		  
 	  }
 	 } 	  
 		  
@@ -58,44 +62,57 @@ var myobstacles=[];
  
   class obstacle{
   constructor(){
+  this.x=300;
   this.y=60;
+  this.z=[];
+  this.score=0;
   this.rotate=0;
   }
    
   randomcolor(){
-   
-    for ( i=0;i<4;i++) 
+    
+    for ( i=0;i<2;i++) 
 	   {
 	     
 		 if(i>0)
 		 {
-		 z[i]=Math.floor(Math.random()*7);
+		 this.z[i]=Math.floor(Math.random()*7);
 		
-		  while(z[i-1]==z[i]||z[i-2]==z[i]||z[i-3]==z[i]||z[i-4]==z[i])
-		  z[i]=Math.floor(Math.random()*7);
+		  while(this.z[i-1]==this.z[i])
+		 this. z[i]=Math.floor(Math.random()*7);
 		 }
 		 else
-		  z[i]=Math.floor(Math.random()*7);
+		  this.z[i]=Math.floor(Math.random()*7);
 		  
 	}
   }
    drawobstacle(){
   
-   for( var j=0;j<4;j++)
+   for( var j=0;j<2;j++)
    {
    if(this.rotate > (Math.PI)*2)
 	{
 	  this.rotate=0
 	}
      
-     startangle=((Math.PI)*j)/2+this.rotate;
-	 endangle=(Math.PI)*(j+1)/2+this.rotate;
-	 ctx.strokeStyle=colours[z[j]];
+     startangle=((Math.PI)*j)+this.rotate;
+	 endangle=(Math.PI)*(j+1)+this.rotate;
+	 ctx.strokeStyle=colours[this.z[j]];
 	 ctx.lineWidth=10;
 	 ctx.beginPath();
 	 ctx.arc(x,this.y,outerradius,startangle,endangle);  
 	 ctx.stroke();
+	 if(this.score==0)
+	 {
+	 ctx.fillStyle="teal";
+	 ctx.beginPath();
+	 ctx.arc(x,this.y,10,0,Math.PI*2);
+	 ctx.closePath();
+	 ctx.fill();
 	 
+	 }
+	
+	
    }
  
  
@@ -131,7 +148,7 @@ function updateball()
 	  if (running==true)
 	   {
           ball.m-=ball.vy;
-		  if(ball.m<o-30)
+		  if(ball.m<o-40)
 		  {
 		   
 		   ball.vy=-ball.vy;
@@ -144,23 +161,13 @@ function updateball()
 	   }
 	   if(ball.m+ball.radius==600 || ball.m+ball.radius==0)
 	      ball.draw();
-	     
-	   	while(c!=1)
-	   {  
-	   b=Math.floor(Math.random()*7);
-	   ball.color=colours[b];
-	   for(j=0;j<4;j++)
-	   {
-	     if(ball.color==colours[z[j]])
-		 { 
-		    c=1;
-		 }
-		}
-	   }
-	 
-	  
+	  if(myobstacles.length>2)   
+	      ball.color=colours[myobstacles[myobstacles.length-2].z[1]]
+	  else
+	       ball.color=colours[myobstacles[0].z[1]]
 		ball.draw();
 }
+
 
 
 
@@ -172,43 +179,115 @@ var gamearea={
      ctx.clearRect(0,0,600,600)
      if(myobstacles[0].y==600)
 	 {
-	  myobstacles=myobstacles.slice(1,);console.log("hi");
+	  myobstacles=myobstacles.slice(1,);
 	  
 	
       }	
-	  if(myobstacles[0].y==250) 
+	  if(myobstacles[0].y==350) 
 	  {
 	     myobstacles.push(new obstacle); 
+		 count=0;
 		 myobstacles[myobstacles.length-1].randomcolor(); 
 		 c=0;
+		  for( var i=0;i<myobstacles.length;i++)
+			           totscore+=myobstacles[i].score;
 	  }
 	  
 		updateball();
-			  
-	 
-        for( var i=0;i<myobstacles.length;i++)
+		
+		 
+		  
+	   
+         for( var i=0;i<myobstacles.length;i++)
 	          {
 	               myobstacles[i].drawobstacle();
-	               myobstacles[i].y+=1;
-	               myobstacles[i].rotate+=0.0175*1.75;
-	          }
+				   
+	              
+				  
+				   if(Math.abs(ball.m-myobstacles[i].y)<70   &&  Math.abs(ball.m-myobstacles[i].y)>55)
+				   {    
+				     if(myobstacles[i].rotate<=Math.PI*1.5 && myobstacles[i].rotate>Math.PI*0.5  )
+					  {
+						if(ball.m>myobstacles[i].y)
+						 {
+						  if(ball.color==colours[myobstacles[i].z[1]])
+						   c=0;
+					 	  else
+						   c=1;
+						 }
+						else
+						 {
+						   if(ball.color==colours[myobstacles[i].z[0]])
+						   c=0;
+					 	  else
+						   c=1;
+						
+						 } 
+						 
+						 
+					   }
+					if(myobstacles[i].rotate>=Math.PI*1.5 || myobstacles[i].rotate<Math.PI*0.5  )
+					{
+					 if(ball.m>myobstacles[i].y)
+					 {	
+						 if( ball.color==colours[myobstacles[i].z[0]])
+						   c=0;
+					 	 else
+						   c=1;
+						
+					   }
+					  else
+					  {
+					      if( ball.color==colours[myobstacles[i].z[1]])
+						   c=0;
+					 	 else
+						   c=1;
+					  } 
+					
+						
+        		    }	
+				}	
+					
+				 if(Math.abs(ball.m-myobstacles[i].y)<=15)
+				 {
+				    
+				     myobstacles[i].score=1;
+					 while(count!=1)
+					 {
+					   totscore+=myobstacles[i].score;
+					   count=1;
+					 }
+					
+				 }	
+					
+                  myobstacles[i].y+=1;  
+	              myobstacles[i].rotate+=0.0175*3;	          
+			  
+			  }
+			  
+			    
+			   
+			  
+			  gamearea.displayscore();
+			  
 	 
 	     raf=requestAnimationFrame(gamearea.updategamearea);  
+		 
+		 if(c==1)
+		 {
+		   cancelAnimationFrame(raf);
 	  
-	 
-	},
-	 
+         }	 
 	
-	   
-	   
-  
-  
-    	  stop:function(){
-	      
-	  
-	  }
-	  
-  }
+	},
+	 displayscore:function(){
+	 ctx.font="30px arial";
+	 ctx.fillStyle="blue";
+	 ctx.fillText("score:"+totscore,8,20);
+	 
+	 
+	 }
+}
   
   
   
