@@ -1,4 +1,4 @@
- var myobstacles=[];
+  var myobstacles=[];
    var outerradius=60;
    var innerradius=45;
    var startangle=0;
@@ -17,6 +17,7 @@
    var o=0;
    var score=0;
    var totscore=0;
+   var highscore=0;
    var count=0;
    
 
@@ -29,7 +30,7 @@
    
    
   function startgame(){
-
+    
      myobstacles.push(new obstacle);
 	 myobstacles[0].randomcolor();
 	 gamearea.updategamearea();
@@ -276,7 +277,12 @@ var gamearea={
 		 if(c==1)
 		 {
 		   cancelAnimationFrame(raf);
-	  
+		   gamearea.storage();
+		   setTimeout(function(){
+		     
+			      
+			  alert("gameover"+"\nhighscore:"+highscore);
+	       },1000);
          }	 
 	
 	},
@@ -286,8 +292,26 @@ var gamearea={
 	 ctx.fillText("score:"+totscore,8,20);
 	 
 	 
+	 },
+	 storage:function(){
+	
+	   if(localStorage.getItem("highscore")!=null)
+	   {
+	     console.log(JSON.parse(localStorage.getItem("highscore")));
+	     highscore=JSON.parse(localStorage.getItem("highscore"));
+	   }
+	   else
+	     highscore=0;
+	   if(highscore<totscore)
+	     highscore=totscore;
+	  
+	   localStorage.setItem("highscore",JSON.stringify(highscore));
+	 
+	 
 	 }
+	 
 }
+  
   
   
   
