@@ -20,8 +20,8 @@
    var highscore=0;
    var count=0;
    
-
-  
+   var scoresound=document.getElementById("scores");
+   
    var sound=document.getElementById("song");
    var canvas=document.getElementById("canvas");
    var ctx=canvas.getContext('2d');
@@ -128,8 +128,10 @@ function updateball()
 {
  canvas.addEventListener('click',function(e)
 	   { 
+	      
 	  	  if (!running)
-	         {	 
+	         {	
+			  
 			   running=true;
 			   o=ball.m
 			   ball.vy=-ball.vy;
@@ -262,6 +264,7 @@ var gamearea={
 				     myobstacles[i].score=1;
 					 while(count!=1)
 					 {
+					   scoresound.play();
 					   totscore+=myobstacles[i].score;
 					   count=1;
 					 }
