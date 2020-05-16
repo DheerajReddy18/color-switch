@@ -1,4 +1,4 @@
-  var myobstacles=[]; //an array to store the obstacles
+ var myobstacles=[]; //an array to store the obstacles
    var outerradius=60;  //outeradius of all obstacles
    var startangle=0;    //starting angle of arc
    var endangle=0;      //ending angle of arc
@@ -62,7 +62,7 @@
   class obstacle{
   constructor(){
   this.x=300;      
-  this.y=60;                      //defining the class variables 
+  this.y=60;
   this.z=[];
   this.score=0;
   this.rotate=0;
@@ -168,10 +168,21 @@ function updateball()                         //updating positions of ball
 	   }
 	   if(ball.m+ball.radius==600 || ball.m+ball.radius==0)   
 	      ball.draw();                 //if ball goes to ends of canvas the values arent increased just drawn at borders
+	 if(myobstacles.length==1)
+	   	  ball.color=colours[myobstacles[0].z[1]]; 
+	
+	
+	//if ball colour has the same colour as the next obstacle then let the colour remain same
+	  
+	if(ball.color==colours[myobstacles[0].z[0]] || ball.color==colours[myobstacles[0].z[1]])
+	{
+		 
 	  if(myobstacles.length>2)   
-	      ball.color=colours[myobstacles[myobstacles.length-2].z[1]]     //one of the colour at z[1] is given to ball9out of 7) so that game  can be played 
+	      ball.color=colours[myobstacles[myobstacles.length-2].z[1]]  ;   //one of the colour at z[1] is given to ball(out of 7) so that game  can be played 
 	  else
-	       ball.color=colours[myobstacles[0].z[1]]
+	       ball.color=colours[myobstacles[0].z[1]];
+	 
+	}    
 		ball.draw();
 }
 
@@ -184,13 +195,13 @@ var gamearea={
   updategamearea:function(){
   
      ctx.clearRect(0,0,600,600)
-     if(myobstacles[0].y==600)
-	 {                                          //removing the old obstacle at y postion of obstacle at 600
+     if(myobstacles[0].y==525)
+	 {                                          //removing the old obstacle at y postion of obstacle at 590
 	  myobstacles=myobstacles.slice(1,);
 	  
 	
       }	
-	  if(myobstacles[0].y==350)                //adding the new obstacle at y postion of obstacle at 350
+	  if(myobstacles[0].y==340)                //adding the new obstacle at y postion of obstacle at 340
 	  {
 	     myobstacles.push(new obstacle);   //adding new obstacle to array
 		 count=0;
@@ -209,7 +220,7 @@ var gamearea={
 	               myobstacles[i].drawobstacle();     
 				                          
 	              
-				  /*collision detection of ball with obstacle if angle is between 90 to 270 and there are two cases 
+				  /*collision detection of ball with outer obstacle if angle is between 90 to 270 and two cases for 
 				  if ball touches the upperpart and if balltouches the lower part and same for the angle between 270-360 and 0-90
 				  so that the colour is same as  with the ball collided   */
 				  
@@ -220,7 +231,7 @@ var gamearea={
 						if(ball.m>myobstacles[i].y)
 						 {
 						  if(ball.color==colours[myobstacles[i].z[1]])
-						   c=0;                      //if c value is one that means the colour is not same as the ball
+						   c=0;
 					 	  else
 						   c=1;
 						 }
@@ -272,6 +283,8 @@ var gamearea={
 					 }
 					
 				 }	
+				 
+			
 					
                   myobstacles[i].y+=1;                    //updating y position of obstacles and rotate
 	              myobstacles[i].rotate+=0.0175*3;	          
