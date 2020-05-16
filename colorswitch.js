@@ -1,4 +1,4 @@
- var myobstacles=[]; //an array to store the obstacles
+   var myobstacles=[]; //an array to store the obstacles
    var outerradius=60;  //outeradius of all obstacles
    var startangle=0;    //starting angle of arc
    var endangle=0;      //ending angle of arc
@@ -16,49 +16,33 @@
    var totscore=0;     //total score for one gameplay
    var highscore=0;    //high score stored in this variable and also in local storage
    var count=0;        //to make the score sound to play once
-   
    var scoresound=document.getElementById("scores"); //getting element scores to play sound on getting points
-   
    var sound=document.getElementById("song");   //getting element scores to play bgm song
    var canvas=document.getElementById("canvas");  
    var ctx=canvas.getContext('2d');
   
-  
-   
-   
-  function startgame(){   //invoked on loading of page
+   function startgame(){   //invoked on loading of page
      
-     myobstacles.push(new obstacle);    //new obstacle added
+         myobstacles.push(new obstacle);    //new obstacle added
 	 myobstacles[0].randomcolor();        //calls random color function
 	 gamearea.updategamearea();          //calls update game area()
-	
-	  
-  }
+   }
   
-  
-  
-   var ball={           
+  var ball={           
 	  l:300,              //properties of ball        
 	  m:590,  
 	  vy:-1.5,            //negative value to move up
 	  radius:5,
 	  color:"blue",   
 	  draw:function(){                //function to draw the ball on canvas
-	  
-	      ctx.beginPath();
+	          ctx.beginPath();
 		  ctx.arc(300,this.m,this.radius,0,Math.PI*2,true);
 		  ctx.closePath();
 		  ctx.fillStyle=this.color;
 		  ctx.fill();
-		  
-		  
 	  }
-	 } 	  
+   } 	  
 		  
-  
- 		
-  
- 
   class obstacle{
   constructor(){
   this.x=300;      
@@ -69,11 +53,9 @@
   }
    
   randomcolor(){                       //stores  two  random colours in z
-    
     for ( i=0;i<2;i++) 
 	   {
-	     
-		 if(i>0)
+	         if(i>0)
 		 {
 		 this.z[i]=Math.floor(Math.random()*7);
 		
@@ -85,11 +67,11 @@
 		  
 	}
   }
-   drawobstacle(){              //draws   the obstacle on canvas     
-                       
-   for( var j=0;j<2;j++)           //drawing semicircles
-   {
-   if(this.rotate > (Math.PI)*2)     //if rotate becomes greater than 360 deg it is resetted to 0
+   
+drawobstacle(){              //draws   the obstacle on canvas     
+    for( var j=0;j<2;j++)           //drawing semicircles
+     {
+      if(this.rotate > (Math.PI)*2)     //if rotate becomes greater than 360 deg it is resetted to 0
 	{
 	  this.rotate=0
 	}
@@ -110,14 +92,8 @@
 	 ctx.fill();
 	 
 	 }
-	
-	
-   }
- 
- 
-
-  	  
-}
+    }
+ }
 }
 
 
@@ -128,7 +104,6 @@ function updateball()                         //updating positions of ball
 	      
 	  	  if (!running)
 	         {	
-			  
 			   running=true;       
 			   o=ball.m               //if ball is running then change the positions of ball
 			   ball.vy=-ball.vy;      //ball movement reversed 
@@ -148,9 +123,7 @@ function updateball()                         //updating positions of ball
 		    audiocount=1;
 			sound.play();
 		 } 
-		  
-	       
-	   } );  
+	  } );  
 	  
 	  if (running==true)
 	   {
@@ -186,11 +159,6 @@ function updateball()                         //updating positions of ball
 		ball.draw();
 }
 
-
-
-
-
-
 var gamearea={
   updategamearea:function(){
   
@@ -198,9 +166,7 @@ var gamearea={
      if(myobstacles[0].y==525)
 	 {                                          //removing the old obstacle at y postion of obstacle at 590
 	  myobstacles=myobstacles.slice(1,);
-	  
-	
-      }	
+	  }	
 	  if(myobstacles[0].y==340)                //adding the new obstacle at y postion of obstacle at 340
 	  {
 	     myobstacles.push(new obstacle);   //adding new obstacle to array
@@ -210,12 +176,8 @@ var gamearea={
 		
 	  }
 	  
-		updateball();
-		
-		 
-		  
-	   
-         for( var i=0;i<myobstacles.length;i++)
+      updateball();
+      for( var i=0;i<myobstacles.length;i++)
 	          {
 	               myobstacles[i].drawobstacle();     
 				                          
@@ -283,21 +245,12 @@ var gamearea={
 					 }
 					
 				 }	
-				 
-			
-					
-                  myobstacles[i].y+=1;                    //updating y position of obstacles and rotate
-	              myobstacles[i].rotate+=0.0175*3;	          
+		  myobstacles[i].y+=1;                    //updating y position of obstacles and rotate
+	          myobstacles[i].rotate+=0.0175*3;	          
 			  
 			  }
-			  
-			    
-			   
-			  
-			  gamearea.displayscore();    //displaying score()
-			  
-	 
-	     raf=requestAnimationFrame(gamearea.updategamearea);   //raf is invoked
+	   gamearea.displayscore();    //displaying score()
+	   raf=requestAnimationFrame(gamearea.updategamearea);   //raf is invoked
 		 
 		 if(c==1)
 		 {                                    //cancel animaton frame is invoked if c value is 1
